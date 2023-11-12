@@ -36,4 +36,28 @@ export class TodosService {
 
     return todo;
   }
+
+  async deleteTodoById(id: number) {
+    const isTodoFound = await this.prisma.todo.count({
+      where: {
+        id: id,
+      },
+    });
+
+    if (isTodoFound) {
+      const todo = await this.prisma.todo.delete({
+        where: {
+          id: id,
+        },
+      });
+
+      if (await todo) {
+        return { message: 'deleted' };
+      } else {
+        return { message: 'failed to delete' };
+      }
+    } else {
+      return { message: 'todo not found' };
+    }
+  }
 }
