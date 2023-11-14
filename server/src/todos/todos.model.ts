@@ -7,12 +7,12 @@ export interface Todo {
 }
 
 export enum TodoStatus {
-  PENDING = "pending",
-  COMPLETED = "completed",
+  PENDING = 'pending',
+  COMPLETED = 'completed',
 }
 
 export enum TodoPriority {
-  HIGH = "high",
-  MEDIUM = "medium",
-  LOW = "low"
+  HIGH = 'high',
+  MEDIUM = 'medium',
+  LOW = 'low',
 }
