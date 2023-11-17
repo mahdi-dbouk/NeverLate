@@ -1,12 +1,14 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import AuthPage from "./components/pages/authPage";
+import Dashboard from "./components/pages/dashboard";
 
 function App() {
   return (
-    <div>
-      <h1 className="m-auto h-4 w-5 rounded-full bg-slate-50 p-2 text-red-600">
-        Hello World
-      </h1>
-    </div>
+    <Routes>
+      <Route element={<AuthPage />} path="/auth"/>
+      <Route element={<Dashboard />} path="/dashboard"/>
+    </Routes>
   );
 }
 
