@@ -9,13 +9,13 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 type TodoProps = {
   description?: string;
   priority?: string;
-  date?: Date;
+  date?: string;
   status?: boolean;
 };
 
 const Todo: React.FC<TodoProps> = ({ description, priority, date, status }) => {
   return (
-    <div className="h-48 w-3/5 border bg-white px-2 shadow-md">
+    <div className="h-36 w-2/5 border bg-white px-2 shadow-md">
       <div className="flex flex-col">
         <div className="flex h-8 w-full flex-row items-center justify-between pt-2">
           <div
@@ -27,7 +27,7 @@ const Todo: React.FC<TodoProps> = ({ description, priority, date, status }) => {
               },
             )}
           >
-            <span className="text-sm font-bold text-white">
+            <span className="text-xs font-bold text-white">
               {status ? "Completed" : "Pending"}
             </span>
           </div>
@@ -36,7 +36,7 @@ const Todo: React.FC<TodoProps> = ({ description, priority, date, status }) => {
               Priority:
             </span>
             <span
-              className={classNames("text-sm font-bold", {
+              className={classNames("text-xs font-bold", {
                 "text-red-600": priority === "high",
                 "text-yellow-600": priority === "medium",
                 "text-blue-600": priority === "low",
@@ -46,8 +46,8 @@ const Todo: React.FC<TodoProps> = ({ description, priority, date, status }) => {
             </span>
           </div>
         </div>
-        <div className="flex h-28 w-full flex-row items-center justify-start px-2">
-          <span className="text-ellipsis text-justify text-lg font-normal text-black">
+        <div className="flex h-16 w-full flex-row items-center justify-start px-2">
+          <span className="text-ellipsis text-justify text-sm font-normal text-black">
             {description}
           </span>
         </div>
@@ -55,7 +55,7 @@ const Todo: React.FC<TodoProps> = ({ description, priority, date, status }) => {
           <div className="flex flex-row gap-1">
             <FontAwesomeIcon icon={faClock} color="gray" size="1x" />
             <span className="text-xs font-normal text-slate-500">
-              {date?.toDateString()}
+              {new Date(date!).toDateString()}
             </span>
           </div>
           <div className="flex flex-row items-center justify-center gap-2">
