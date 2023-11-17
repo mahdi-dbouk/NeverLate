@@ -7,7 +7,7 @@ type InputProps = {
   value: string,
   placeholder: string;
   disabled: boolean;
-  onChange: () => void;
+  onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({
   value,
   placeholder,
   disabled,
-  onChange,
+  onValueChange,
 }) => {
   return (
     <input
@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
       type={type}
       placeholder={placeholder}
       disabled={disabled}
-      onChange={onChange}
+      onChange={onValueChange}
     />
   );
 };
