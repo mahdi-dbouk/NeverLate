@@ -1,18 +1,17 @@
 import { useState } from "react";
 import Button from "../shared/button";
 import Input from "../shared/input";
-type FormProps = {
-  title: string;
-  submit: () => void;
-};
 
-const AuthForm: React.FC<FormProps> = ({ submit }) => {
+const AuthForm: React.FC = () => {
   const [type, setType] = useState<string>("Login");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
 
   return (
     <div className="flex h-full w-full flex-row items-center justify-center">
       <div className="flex h-fit w-96 flex-col items-center gap-y-4 rounded-md border-2 border-gray-300 px-2 py-4">
-
         <div className="flex w-full flex-row items-start justify-center">
           <span className="text-2xl font-bold italic text-blue-500">
             NeverLate!
@@ -30,9 +29,11 @@ const AuthForm: React.FC<FormProps> = ({ submit }) => {
                 placeholder="Name"
                 height="h-10"
                 width="w-4/5"
-                value={"some value"}
+                value={name}
                 disabled={false}
-                onChange={() => {}}
+                onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setName(event.target.value);
+                }}
               />
             </div>
           </>
@@ -46,9 +47,11 @@ const AuthForm: React.FC<FormProps> = ({ submit }) => {
             placeholder="Email"
             height="h-10"
             width="w-4/5"
-            value={"some value"}
+            value={email}
             disabled={false}
-            onChange={() => {}}
+            onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setEmail(event.target.value);
+            }}
           />
         </div>
         <div className="flex w-4/5 flex-row justify-start">
@@ -60,9 +63,11 @@ const AuthForm: React.FC<FormProps> = ({ submit }) => {
             placeholder="Password"
             height="h-10"
             width="w-4/5"
-            value={"some value"}
+            value={password}
             disabled={false}
-            onChange={() => {}}
+            onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setPassword(event.target.value);
+            }}
           />
         </div>
 
@@ -73,7 +78,7 @@ const AuthForm: React.FC<FormProps> = ({ submit }) => {
             text={type}
             disabled={false}
             variant="primary"
-            action={submit}
+            action={() => {submit()}}
           />
         </div>
         <div className="flex h-full flex-row items-center justify-center gap-2">
@@ -83,7 +88,7 @@ const AuthForm: React.FC<FormProps> = ({ submit }) => {
 
           <Button
             variant="text"
-            text={type === "Register"? "Login": "Register"}
+            text={type === "Register" ? "Login" : "Register"}
             height="h-fit"
             width="w-fit"
             disabled={false}
