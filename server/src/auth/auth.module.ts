@@ -9,18 +9,19 @@ import { PassportModule } from '@nestjs/passport';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
+  providers: [AuthService, PrismaService, JwtStrategy, UserService],
+  controllers: [AuthController],
   imports: [
     PrismaModule,
     PassportModule,
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      },
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.JWT_SECRET,
+        signOptions: {
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        },
+      }),
     }),
   ],
-  providers: [AuthService, PrismaService, JwtStrategy, UserService],
-  controllers: [AuthController],
 })
 export class AuthModule {}
