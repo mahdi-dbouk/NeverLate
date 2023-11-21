@@ -2,8 +2,12 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons/faAdd";
 import { faHistory } from "@fortawesome/free-solid-svg-icons/faHistory";
 import Button from "../shared/button";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
+import CreateTodoModal from "./createTodoModal";
 
 const FloatingActions = () => {
+
+  const createTodoModalRef = useRef<React.ElementRef<typeof CreateTodoModal>>(null)
   return (
     <div className="fixed bottom-3 right-3 flex h-fit w-16 flex-col items-center justify-center gap-3">
       <Button
@@ -25,7 +29,7 @@ const FloatingActions = () => {
         icon={faAdd}
         iconColor="white"
         disabled={false}
-        action={() => {}}
+        action={() => {createTodoModalRef.current?.openModal()}}
       />
       <Button
         variant="ghost-icon"
@@ -39,6 +43,8 @@ const FloatingActions = () => {
         disabled={false}
         action={() => {}}
       />
+
+      <CreateTodoModal ref={createTodoModalRef}/>
     </div>
   );
 };
