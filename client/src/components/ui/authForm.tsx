@@ -8,7 +8,8 @@ import validateEmail from "../../validators/vaildateEmail";
 import validatePassword from "../../validators/validatePassword";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faWarning } from "@fortawesome/free-solid-svg-icons";
-import { Login, LoginRequest, LoginResponse, Register, RegisterRequest } from "../../services/auth.service";
+import { Login, Register } from "../../services/auth.service";
+import { LoginRequest, RegisterRequest, LoginResponse } from "../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { saveAuthUser } from "../../utilities/localstorage.utilities";
 

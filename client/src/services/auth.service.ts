@@ -1,24 +1,6 @@
 import axios, { AxiosResponse } from "axios";
+import { LoginRequest, RegisterRequest, LoginResponse } from "../types/auth.types";
 
-export type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-export type RegisterRequest = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-export type LoginResponse = {
-  token: string;
-  data: {
-    email: string;
-    id: number;
-    name: string;
-  };
-};
 export const Login = async (
   data: LoginRequest,
 ): Promise<AxiosResponse<LoginResponse>> => {
