@@ -28,7 +28,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('Wrong Email or Password');
     }
 
     const { hashedPassword, ...data } = user;
@@ -36,7 +36,7 @@ export class AuthService {
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
 
     if (!isPasswordValid) {
-      throw new NotFoundException('invalid email or password');
+      throw new NotFoundException('Wrong Email or Password');
     }
 
     return {
