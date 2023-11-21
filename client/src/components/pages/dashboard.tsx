@@ -5,7 +5,7 @@ import TodoList from './todosList';
 const Dashboard: React.FC = () => {
     return(
         <>
-            <Navbar email='mahdi.dbouk97@gmail.com' />
+            <Navbar email={localStorage.getItem('auth-user-email') ?? "username"} />
             <TodoList />
             <FloatingActions />
         </>
