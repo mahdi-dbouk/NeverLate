@@ -1,4 +1,4 @@
-import { LoginResponse } from "../services/auth.service";
+import { LoginResponse } from "../types/auth.types";
 
 export const saveAuthUser = (data: LoginResponse) => {
     localStorage.setItem('auth-user-email', data.data.email);
