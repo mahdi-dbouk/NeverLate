@@ -1,4 +1,4 @@
-export type Todo = {
+export type TodoType = {
     id: number;
     description: string;
     date: string;
@@ -6,9 +6,13 @@ export type Todo = {
     status: string;
   };
   
-export type GroupedTodo = {
-    [date: string]: Todo[];
+export type GroupedTodoByDate = {
+    [date: string]: TodoType[];
 };
+
+export type GroupedTodoByStatus = {
+    [status: string]: TodoType[];
+}
 
 export type CreateTodoRequest = {
     description: string;
