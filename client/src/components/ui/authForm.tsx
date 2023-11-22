@@ -46,7 +46,6 @@ const AuthForm: React.FC = () => {
     },
     onSuccess: (data: LoginResponse) => {
       saveAuthUser(data);
-      console.log(data);
       snackbarRef.current?.show();
       setSnackbarMessage("Login Successful!");
       setSnackbarStatus("success");
@@ -58,9 +57,7 @@ const AuthForm: React.FC = () => {
       }, 3600);
     },
     onError: (error: AxiosError) => {
-      console.error("Mutation failed:", error);
       const errorMessage = error.response?.data.message;
-      console.log(errorMessage);
       snackbarRef.current?.show();
       setSnackbarMessage(errorMessage);
       setSnackbarStatus("failed");
@@ -77,7 +74,6 @@ const AuthForm: React.FC = () => {
       return response.data;
     },
     onSuccess: (data: LoginResponse) => {
-      console.log(data);
       saveAuthUser(data);
       snackbarRef.current?.show();
       setSnackbarMessage("Account Created Successfully!");
@@ -90,9 +86,7 @@ const AuthForm: React.FC = () => {
       }, 3600);
     },
     onError: (error: AxiosError) => {
-      console.error("Mutation failed:", error);
       const errorMessage = error.response?.data.message;
-      console.log(errorMessage);
       snackbarRef.current?.show();
       setSnackbarMessage(errorMessage);
       setSnackbarStatus("failed");
