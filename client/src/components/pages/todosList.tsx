@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import TodoLoading from "../ui/todoLoading";
 import { groupTodosByDate } from "../../utilities/todo.utilities";
 
-const token = localStorage.getItem('access-token')
-console.log(token)
 
 const TodoList = () => {
+  const token = localStorage.getItem('access-token')
+  console.log(token)
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
   const [snackbarStatus, setSnackbarStatus] = useState<string>("");
   const snackbarRef = useRef<React.ElementRef<typeof Snackbar>>(null);
@@ -24,7 +24,8 @@ const TodoList = () => {
       })
       return response.data
     },
-    staleTime: 20 * 1000
+    staleTime: 20 * 1000,
+    enabled: !!token,
   })
 
   useEffect(() => {
@@ -60,6 +61,7 @@ const TodoList = () => {
             {todosForDate.map((todo, index) => (
               <Todo
                 key={index}
+                id={todo.id}
                 description={todo.description}
                 date={todo.date}
                 priority={todo.priority}
