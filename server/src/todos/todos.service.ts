@@ -84,7 +84,7 @@ export class TodosService {
       },
     });
     if (isTodoFound) {
-      const { description, priority, status, date } = updateTodoDto;
+      const { description, priority, date } = updateTodoDto;
       const updatedTodo = await this.prisma.todo.update({
         data: {
           description,
@@ -94,8 +94,6 @@ export class TodosService {
               : priority === 'medium'
               ? TodoPriority.MEDIUM
               : TodoPriority.LOW,
-          status:
-            status === 'pending' ? TodoStatus.PENDING : TodoStatus.COMPLETED,
           date: new Date(date).toISOString(),
         },
         where: {
