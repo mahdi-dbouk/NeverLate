@@ -8,7 +8,6 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { useRef, useState } from "react";
 import CreateTodoModal from "./createTodoModal";
 import Snackbar from "../shared/snackbar";
-import { CreateTodoResponse } from "../../types/todo.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTodoById, markTodoCompleted } from "../../services/todos.service";
 
@@ -36,8 +35,7 @@ const Todo: React.FC<TodoProps> = ({id, description, priority, date, status }) =
 
       return response.data;
     },
-    onSuccess: (data: CreateTodoResponse) => {
-      console.log(data)
+    onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['todos']});
       snackbarRef.current?.show();
       setSnackbarMessage("Status Updated Successfully!");
@@ -65,8 +63,7 @@ const Todo: React.FC<TodoProps> = ({id, description, priority, date, status }) =
 
       return response.data;
     },
-    onSuccess: (data: CreateTodoResponse) => {
-      console.log(data)
+    onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['todos']});
       snackbarRef.current?.show();
       setSnackbarMessage("Todo Deleted Successfully!");
