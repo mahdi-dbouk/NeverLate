@@ -8,7 +8,7 @@ import DropDown from "../shared/dropdown";
 import DatePicker from "../shared/datepicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTodo, updateTodoById } from "../../services/todos.service";
-import { CreateTodoRequest, CreateTodoResponse, UpdateTodoRequest } from "../../types/todo.types";
+import { CreateTodoRequest, UpdateTodoRequest } from "../../types/todo.types";
 import Snackbar from "../shared/snackbar";
 
 type CreateTodoModalProps = {
@@ -24,7 +24,6 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
       openModal(action: string) {
         setShowModal(true);
         setActionType(action);
-        console.log("openModal() in CreateTodoModal Component was invoked");
       },
       closeModal() {
         setShowModal(false);
@@ -69,8 +68,7 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
             const response = await createTodo(data);
             return response.data;
         },
-        onSuccess: (data: CreateTodoResponse) => {
-            console.log(data)
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['todos']});
             snackbarRef.current?.show();
             setSnackbarMessage("Todo Created Successfully!");
@@ -91,8 +89,7 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
             const response = await updateTodoById(data);
             return response.data;
         },
-        onSuccess: (data: CreateTodoResponse) => {
-            console.log(data)
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['todos']});
             snackbarRef.current?.show();
             setSnackbarMessage("Todo Updated Successfully!");
@@ -117,7 +114,7 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
     }
 
     return (
-      <div className="w-full h-full flex flex-col">
+      <>
       <Snackbar ref={snackbarRef} message={snackbarMessage} status={snackbarStatus} />
       <Modal
         isOpen={showModal}
@@ -182,7 +179,7 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
           </div>
         </div>
       </Modal>
-    </div>
+    </>
     );
   },
 );
