@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <img src="/readme/assets/neverlate.png" alt="NeverLate" width="200">
+  <img src="/readme/assets/neverlate.png" alt="NeverLate">
   <br>
   NeverLate!
   <br>
