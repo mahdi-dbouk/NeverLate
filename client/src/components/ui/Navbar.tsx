@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ email }) => {
             queryClient.invalidateQueries({queryKey: ['todos']})
             queryClient.invalidateQueries({queryKey: ['auth']})
             queryClient.clear();
-            navigate("/auth", {
+            navigate("/", {
               replace: true,
             });
           }}
