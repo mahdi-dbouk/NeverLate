@@ -35,7 +35,7 @@ const Snackbar = forwardRef<SnackbarRef, SnackbarProps>(
       renderSnackbar && (
         <div
           className={classNames(
-            "fixed top-16 flex h-12 w-[320px] flex-row items-center justify-start rounded-lg px-4 py-2 text-lg font-bold text-white shadow-lg",
+            "fixed left-[calc(50%-160px)] top-10 z-[100001] flex h-12 w-[320px] flex-row items-center justify-start rounded-lg px-4 py-2 text-lg font-bold text-white shadow-lg",
             {
               "bg-green-500": status === "success",
               "bg-red-500": status === "failed",
