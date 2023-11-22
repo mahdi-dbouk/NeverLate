@@ -1,10 +1,15 @@
+import { useNavigate } from "react-router-dom";
+import { deleteAuthUser } from "../../utilities/localstorage.utilities";
 import Button from "../shared/button";
+import { useQueryClient } from "@tanstack/react-query";
 
 type NavbarProps = {
   email: string;
 };
 
 const Navbar: React.FC<NavbarProps> = ({ email }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const emailSplit: string[] = email.split("@");
   const username: string = emailSplit[0];
   return (
@@ -18,7 +23,15 @@ const Navbar: React.FC<NavbarProps> = ({ email }) => {
           variant="primary"
           text="Logout"
           disabled={false}
-          action={() => {}}
+          action={() => {
+            deleteAuthUser();
+            queryClient.invalidateQueries({queryKey: ['todos']})
+            queryClient.invalidateQueries({queryKey: ['auth']})
+            queryClient.clear();
+            navigate("/auth", {
+              replace: true,
+            });
+          }}
         />
       </div>
     </div>
