@@ -7,7 +7,7 @@ import NotFound from "./components/pages/notFound";
 function App() {
   return (
     <Routes>
-      <Route element={<AuthPage />} path="/auth"/>
+      <Route element={<AuthPage />} path="/"/>
       <Route element={<Dashboard />} path="/dashboard"/>
       <Route element={<NotFound />} path="*" />
     </Routes>
