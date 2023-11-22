@@ -1,22 +1,29 @@
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import Modal from "react-modal";
 import Input from "../shared/input";
 import Button from "../shared/button";
+import DropDown from "../shared/dropdown";
+import DatePicker from "../shared/datepicker";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createTodo, updateTodoById } from "../../services/todos.service";
+import { CreateTodoRequest, CreateTodoResponse, UpdateTodoRequest } from "../../types/todo.types";
+import Snackbar from "../shared/snackbar";
 
 type CreateTodoModalProps = {
-  //
+  todoId?: number
 };
 export type CreateTodoModalRef = {
-  openModal: () => void;
+  openModal: (action: string) => void;
   closeModal: () => void;
 };
 const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
-  (_, ref) => {
+  ({todoId = -1}, ref) => {
     useImperativeHandle(ref, () => ({
-      openModal() {
+      openModal(action: string) {
         setShowModal(true);
+        setActionType(action);
         console.log("openModal() in CreateTodoModal Component was invoked");
       },
       closeModal() {
@@ -24,12 +31,19 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
       },
     }));
 
+    const snackbarRef = useRef<React.ElementRef<typeof Snackbar>>(null);
+
+    const [actionType, setActionType] = useState<string>("");
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>("");
+    const [snackbarStatus, setSnackbarStatus] = useState<string>("");
+
+    const queryClient = useQueryClient();
 
     const [todoData, setTodoData] = useState({
-      text: "",
+      description: "",
       priority: "",
-      date: "",
+      date: new Date(),
     });
 
     const customStyles = {
@@ -49,7 +63,62 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
       setShowModal(false);
     };
 
+    const mutation = useMutation({
+        mutationKey: ['todos'],
+        mutationFn: async (data: CreateTodoRequest) => {
+            const response = await createTodo(data);
+            return response.data;
+        },
+        onSuccess: (data: CreateTodoResponse) => {
+            console.log(data)
+            queryClient.invalidateQueries({queryKey: ['todos']});
+            snackbarRef.current?.show();
+            setSnackbarMessage("Todo Created Successfully!");
+            setSnackbarStatus("success");
+            setTimeout(() => {
+              snackbarRef.current?.hide();
+              closeModal();
+            }, 3600);
+        },
+        onError(error) {
+            console.log(error)
+        },
+    })
+
+    const updateByIdMutation = useMutation({
+        mutationKey: ['todos'],
+        mutationFn: async (data: UpdateTodoRequest) => {
+            const response = await updateTodoById(data);
+            return response.data;
+        },
+        onSuccess: (data: CreateTodoResponse) => {
+            console.log(data)
+            queryClient.invalidateQueries({queryKey: ['todos']});
+            snackbarRef.current?.show();
+            setSnackbarMessage("Todo Updated Successfully!");
+            setSnackbarStatus("success");
+            setTimeout(() => {
+              snackbarRef.current?.hide();
+              closeModal();
+            }, 3600);
+        },
+        onError(error) {
+            console.log(error)
+        },
+    })
+
+    const submit = () => {
+        if(actionType === 'create') {
+            mutation.mutate(todoData);
+        }
+        if(actionType === 'update') {
+            updateByIdMutation.mutate({id: todoId, ...todoData});
+        }
+    }
+
     return (
+      <div className="w-full h-full flex flex-col">
+      <Snackbar ref={snackbarRef} message={snackbarMessage} status={snackbarStatus} />
       <Modal
         isOpen={showModal}
         onRequestClose={closeModal}
@@ -69,39 +138,32 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
               placeholder="Description"
               height="h-10"
               width="w-full"
-              value={todoData.text}
+              value={todoData.description}
               disabled={false}
               onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setTodoData({ ...todoData, text: event.target.value });
+                setTodoData({ ...todoData, description: event.target.value });
               }}
             />
           </div>
           <div className="flex flex-row gap-4">
             <div className="flex flex-1 flex-col items-start justify-center">
               <label htmlFor="Priority">Priority</label>
-              <Input
-                type="text"
-                placeholder="Priority"
+              <DropDown
                 height="h-10"
                 width="w-full"
-                value={todoData.priority}
-                disabled={false}
-                onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                placeholder="Priority"
+                onSelection={(event: React.ChangeEvent<HTMLSelectElement>) => {
                   setTodoData({ ...todoData, priority: event.target.value });
                 }}
               />
             </div>
             <div className="flex flex-1 flex-col items-start justify-center">
               <label htmlFor="Date">Date</label>
-              <Input
-                type="text"
-                placeholder="Date"
+              <DatePicker
                 height="h-10"
                 width="w-full"
-                value={todoData.date}
-                disabled={false}
-                onValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setTodoData({ ...todoData, date: event.target.value });
+                onSelection={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setTodoData({ ...todoData, date: new Date(event.target.value) });
                 }}
               />
             </div>
@@ -114,12 +176,13 @@ const CreateTodoModal = forwardRef<CreateTodoModalRef, CreateTodoModalProps>(
               disabled={false}
               variant="primary"
               action={() => {
-                console.log("clicked");
+                submit()
               }}
             />
           </div>
         </div>
       </Modal>
+    </div>
     );
   },
 );
