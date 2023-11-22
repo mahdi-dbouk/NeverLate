@@ -9,6 +9,8 @@ const FloatingActions = () => {
 
   const createTodoModalRef = useRef<React.ElementRef<typeof CreateTodoModal>>(null)
   return (
+    <>
+    <CreateTodoModal ref={createTodoModalRef}/>
     <div className="fixed bottom-3 right-3 flex h-fit w-16 flex-col items-center justify-center gap-3">
       <Button
         variant="ghost-icon"
@@ -29,7 +31,7 @@ const FloatingActions = () => {
         icon={faAdd}
         iconColor="white"
         disabled={false}
-        action={() => {createTodoModalRef.current?.openModal()}}
+        action={() => {createTodoModalRef.current?.openModal('create')}}
       />
       <Button
         variant="ghost-icon"
@@ -43,9 +45,8 @@ const FloatingActions = () => {
         disabled={false}
         action={() => {}}
       />
-
-      <CreateTodoModal ref={createTodoModalRef}/>
     </div>
+    </>
   );
 };
 
